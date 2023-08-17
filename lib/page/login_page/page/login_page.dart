@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note/app_define/dialog/error_dialog.dart';
+import 'package:note/app_define/route/route_define.dart';
 import 'package:note/app_define/services/auth/auth_exception.dart';
 import 'package:note/app_define/services/auth/auth_services.dart';
 import 'package:note/app_define/ui/ui_define.dart';
@@ -83,9 +84,9 @@ class _LoginPageState extends State<LoginPage> {
       final userModel = AuthService.firebase().currentUser;
       if (userModel != null) {
         if (userModel.isEmailVerified == false) {
-          navigator.pushNamedAndRemoveUntil("/verifyEmail/", (_) => false);
+          navigator.pushNamedAndRemoveUntil(verifyEmailRoute, (_) => false);
         } else {
-          navigator.pushNamedAndRemoveUntil("/mainPage/", (_) => false);
+          navigator.pushNamedAndRemoveUntil(mainRoute, (_) => false);
         }
       }
     } on UserNotFoundAuthException catch (_) {
@@ -96,6 +97,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _onRegistClick() {
-    Navigator.of(context).pushNamed("/register/");
+    Navigator.of(context).pushNamed(registerRoute);
   }
 }
