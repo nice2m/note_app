@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:note/app_define/debug/dev_tool.dart';
+import 'package:note/app_define/dialog/error_dialog.dart';
 import 'package:note/app_define/services/auth/auth_exception.dart';
 import 'package:note/app_define/services/auth/auth_services.dart';
 import 'package:note/app_define/ui/ui_define.dart';
-import 'package:note/app_define/ui/ui_toast.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -85,18 +85,18 @@ class _RegisterPageState extends State<RegisterPage> {
     final String pwd2 = _password2Controller.text.trim();
 
     if (pwd != pwd2) {
-      ToastUtil.toast("the passwords arent' the same");
+      showErrorDialog(context, 'the passwords are not the same');
       return;
     }
 
     try {
       AuthService.firebase().createUser(email: user, password: pwd);
     } on InvalidEmailAuthException catch (_) {
-      ToastUtil.toast("invalid email,check your email!");
+        showErrorDialog(context, 'invalid email,check your email!');
     } on WeakPasswordAuthException catch (_) {
-      ToastUtil.toast("weak password,check your password!");
+        showErrorDialog(context, 'weak password,check your password!');
     } on EmailAlreadyInUseAuthException catch (_) {
-      ToastUtil.toast("invalid email,check your email!");
+        showErrorDialog(context, 'invalid email,check your email!');
     }
   }
 }

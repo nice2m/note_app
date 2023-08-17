@@ -45,8 +45,6 @@ dependencies:
   # sqlflite
   sqflite: ^2.3.0
 
-  # ui toast component
-  fluttertoast: ^8.2.2
   path_provider: ^2.1.0
 
 

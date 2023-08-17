@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:note/app_define/dialog/error_dialog.dart';
 import 'package:note/app_define/services/auth/auth_exception.dart';
 import 'package:note/app_define/services/auth/auth_services.dart';
 import 'package:note/app_define/ui/ui_define.dart';
-import 'package:note/app_define/ui/ui_toast.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   const VerifyEmailPage({super.key});
@@ -73,12 +73,12 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       if (user != null) {
         await AuthService.firebase().sendEmailVerification();
       } else {
-        ToastUtil.toast("user not logined yet!");
+        showErrorDialog(context, 'user not logined yet!');
       }
     } on UserNotLoginedAuthException catch (_) {
-      ToastUtil.toast("user not logined yet!");
+      showErrorDialog(context, 'user not logined yet!');
     } on GenericAuthException catch (_) {
-      ToastUtil.toast("Auth error!");
+      showErrorDialog(context, 'Auth error!');
     }
   }
 }

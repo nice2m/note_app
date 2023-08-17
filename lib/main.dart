@@ -3,6 +3,10 @@ import 'package:note/app_define/route/route_define.dart';
 import 'package:note/app_define/services/auth/auth_services.dart';
 import 'package:note/app_define/ui/ui_define.dart';
 import 'package:note/page/login_page/page/login_page.dart';
+import 'package:note/page/main_page/page/main_page.dart';
+import 'package:note/page/new_note_page/page/new_note_page.dart';
+import 'package:note/page/register_page/page/register_page.dart';
+import 'package:note/page/verify_email_page/page/verify_email_page.dart';
 
 void main() {
   runApp(const NoteApp());
@@ -34,9 +38,17 @@ class NoteApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: UI.primaryColor),
         useMaterial3: true,
+        primaryColor: UI.primaryColor,
+        
       ),
       home: const HomePage(),
-      routes: routesDefine,
+      routes: {
+        loginRoute: (context) => const LoginPage(),
+        registerRoute: (context) => const RegisterPage(),
+        mainRoute: (context) => const MainPage(),
+        verifyEmailRoute: (context) => const VerifyEmailPage(),
+        newNoteRoute: (context) => const NewNotePage()
+      },
     );
   }
 }
@@ -51,35 +63,40 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: FutureBuilder(
-      future: AuthService.firebase().initialize(),
-      builder: (context,snapshot){
-
-          // already logined we show main page
-          if (AuthService.firebase().currentUser != null) {
-            return const LoginPage();
-          }
-
-          // not logind we show login page
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              return const LoginPage();
-            default:
-              return Center(
+    return Scaffold(
+      body: FutureBuilder(
+          future: AuthService.firebase().initialize(),
+          builder: (context, snapshot) {
+            // not logind we show login page
+            switch (snapshot.connectionState) {
+              case ConnectionState.done:
+                // already logined we show main page
+                if (AuthService.firebase().currentUser != null) {
+                  return const MainPage();
+                }
+                return const LoginPage();
+              default:
+                return Center(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
                       children: [
-                       const SizedBox(
-                        height: 88,
-                        width: 88,
-                        child: CircularProgressIndicator(),
+                        const SizedBox(
+                          height: 88,
+                          width: 88,
+                          child: CircularProgressIndicator(),
                         ),
-                        const SizedBox(height: 16,),
-                        Text("Sync System",style: UI.textNormal,)
-                    ]),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Text(
+                          "Sync System",
+                          style: UI.textNormal,
+                        )
+                      ]),
                 );
-          }
-    }),);
+            }
+          }),
+    );
   }
 }

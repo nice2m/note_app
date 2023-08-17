@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:note/app_define/dialog/error_dialog.dart';
 import 'package:note/app_define/services/auth/auth_exception.dart';
 import 'package:note/app_define/services/auth/auth_services.dart';
 import 'package:note/app_define/ui/ui_define.dart';
-import 'package:note/app_define/ui/ui_toast.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -89,9 +89,9 @@ class _LoginPageState extends State<LoginPage> {
         }
       }
     } on UserNotFoundAuthException catch (_) {
-      ToastUtil.toast("user not found, please check your user name");
+      showErrorDialog(context, 'user not found, please check your user name');
     } on WrongPasswordAuthException catch (_) {
-      ToastUtil.toast("wrong password!");
+      showErrorDialog(context, 'wrong password!');
     }
   }
 
