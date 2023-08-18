@@ -49,7 +49,7 @@ class NoteApp extends StatelessWidget {
         verifyEmailRoute: (context) => const VerifyEmailPage(),
         newNoteRoute: (context) => const NewNotePage()
       },
-    );
+    ); 
   }
 }
 
@@ -76,25 +76,25 @@ class _HomePageState extends State<HomePage> {
                 }
                 return const LoginPage();
               default:
-                return Center(
-                  child: Column(
+                return  Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        const SizedBox(
+                        Center(
+                          child: const SizedBox(
                           height: 88,
                           width: 88,
                           child: CircularProgressIndicator(),
-                        ),
+                        )),
                         const SizedBox(
                           height: 16,
                         ),
                         Text(
-                          "Sync System",
+                          "initializing...",
                           style: UI.textNormal,
                         )
-                      ]),
-                );
+                      ]);
+                
             }
           }),
     );
